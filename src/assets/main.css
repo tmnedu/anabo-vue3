@@ -1,0 +1,71 @@
+@import './base.css';
+
+#app {
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  padding: 2rem;
+
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  /* #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  } */
+}
+
+.main {
+  margin-top: 20px;
+}
+@media (min-width: 1024px) {
+  .main {
+    margin-top: 60px;
+  }
+}
+
+.areas {
+  display: grid;
+  grid-auto-columns: 1fr;
+  gap: 14px 16px;
+}
+@media (min-width: 1024px) {
+  .areas {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.big-button {
+  width: 100%;
+  margin-top: 16px;
+  height: 60px;
+  font-size: 22px;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task:nth-of-type(odd) {
+  background-color: var(--color-background-mute);
+}
