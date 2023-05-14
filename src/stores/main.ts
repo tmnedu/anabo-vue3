@@ -8,16 +8,19 @@ import {
     remove,
     type DatabaseReference,
 } from "firebase/database";
-import { initializeApp, type FirebaseOptions } from "firebase/app";
+import {
+    type FirebaseOptions,
+    initializeApp,
+    getApps,
+    deleteApp,
+} from "firebase/app";
 import AnaboData, { Helper, Task } from "@/model/AnaboData";
-import { format } from "date-fns";
 let makeConfig = (key: string) => {
     const config: FirebaseOptions = {
         databaseURL: `https://${key}-default-rtdb.europe-west1.firebasedatabase.app`,
     };
     return config;
 };
-const currentMonth = format(new Date(), "yyyy-MM");
 
 export const useMainStore = defineStore({
     id: "main",
@@ -30,13 +33,23 @@ export const useMainStore = defineStore({
     },
     actions: {
         async dbInit(key: string) {
+            console.log("store: dbInit()");
+            const apps = getApps();
+            const app = apps.find((app) => app.name == "[DEFAULT]");
+            if (app) deleteApp(app);
             initializeApp(makeConfig(key));
             this.dbRef = ref(getDatabase());
-            this.isInited = true;
-            this.init();
+            const availabilitySnapshot = await get(child(this.dbRef, "anabo"));
+            if (availabilitySnapshot.exists()) {
+                this.isInited = true;
+                this.init();
+                return "success";
+            } else return "error";
         },
         async init() {
-            const snapshot = await get(child(this.dbRef!, "anabo"));
+            console.log("store: init()");
+            const snapshot = await get(child(this.dbRef, "anabo"));
+            console.log("store: snapshot", snapshot);
             if (snapshot.exists()) this.information = snapshot.val();
             else console.warn("db empty");
             return;
@@ -99,7 +112,5 @@ export const useMainStore = defineStore({
         helpers: (state) => state.information.helpers,
         curator: (state) => state.information.curator,
         tasks: (state) => state.information.tasks,
-        currentMonthTasks: (state) =>
-            state.information.tasks.filter((x) => x.month == currentMonth),
     },
 });

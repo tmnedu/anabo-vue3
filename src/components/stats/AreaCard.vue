@@ -11,6 +11,7 @@
         </div>
         <div style="padding: 12px">
             <AreaHelper
+                :key="month"
                 :admin-view="adminView"
                 :month="month"
                 v-for="helper in areaHelpers"

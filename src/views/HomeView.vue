@@ -3,7 +3,8 @@
         <div>
             <h2 style="margin-top: 12px" v-text="'Выберите месяц:'" />
             <div>
-                <div
+                <input v-model="selectedMonth" type="month" />
+                <!-- <div
                     @click="selectedMonth = month"
                     style="display: flex"
                     v-for="month in months"
@@ -15,7 +16,7 @@
                         v-if="month == selectedMonth"
                         v-text="'✅'"
                     />
-                </div>
+                </div> -->
             </div>
             <h2 style="margin: 12px 0" v-text="'Выберите группу:'" />
             <div class="areas">

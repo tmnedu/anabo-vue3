@@ -53,18 +53,21 @@
 import type { Helper } from "@/model/AnaboData";
 import { useMainStore } from "@/stores/main";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
-const { month, helper } = defineProps<{
+import { ref, computed, watch } from "vue";
+const props = defineProps<{
     month?: string;
     helper: Helper;
     adminView?: boolean;
 }>();
+const { month, helper } = props;
 const store = useMainStore();
 const { tasks } = storeToRefs(store);
-const selectedMonthTasks = tasks.value.filter((x) => x.month == month);
-const completedMonthTasks = selectedMonthTasks.filter((x) =>
+let selectedMonthTasks = tasks.value.filter((x) => x.month == month);
+
+let completedMonthTasks = selectedMonthTasks.filter((x) =>
     helper.completedTaskIds?.includes?.(x.id)
 );
+
 let isEdit = ref(false);
 function save(helper: Helper) {
     store.saveHelpers([helper]);

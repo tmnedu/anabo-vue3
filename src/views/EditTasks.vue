@@ -6,7 +6,7 @@
         </div>
         <h1>Управление задачами на {{ currentMonthString }}</h1>
         <AdminTaskRow
-            v-for="task in currentMonthTasks"
+            v-for="task in selectedMonthTasks"
             :key="task.id"
             :task="task"
             @remove="remove(task.id)"
@@ -37,7 +37,7 @@ const currentMonthString = computed(() =>
 );
 let state = ref("none");
 const store = useMainStore();
-const currentMonthTasks = computed(() => {
+const selectedMonthTasks = computed(() => {
     return store.getMonthTasks(selectedMonth.value);
 });
 async function save() {

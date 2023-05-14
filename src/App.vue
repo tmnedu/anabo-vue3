@@ -17,6 +17,11 @@
             <label v-text="'Пароль'" />
             <input v-model="key" />
             <button @click="login">Войти</button>
+            <div
+                v-if="error"
+                style="color: #ff3333"
+                v-text="'Неверный пароль'"
+            />
         </div>
     </div>
 </template>
@@ -27,18 +32,27 @@ import { onMounted, ref } from "vue";
 const store = useMainStore();
 const { isInited } = storeToRefs(store);
 
-function initStore(key: any) {
-    store.dbInit(key);
+async function initStore(key: any) {
+    const result = await store.dbInit(key);
+    if (result != "success") error.value = true;
 }
-let key = ref("");
+let key = ref(""),
+    error = ref(false);
 function login() {
+    if (!key.value) {
+        error.value = true;
+        return;
+    }
+    const dbkey = key.value;
     window.localStorage.setItem("anabo-key", key.value);
     initStore(key.value);
 }
 function mounted() {
     let lsKey = window.localStorage.getItem("anabo-key");
-    console.log('found key', lsKey)
-    if (lsKey) initStore(lsKey);
+    console.log("found key", lsKey);
+    if (lsKey) {
+        initStore(lsKey);
+    }
 }
 onMounted(mounted);
 </script>
