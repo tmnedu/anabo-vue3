@@ -6,6 +6,8 @@
             type="checkbox"
             v-model="isTaskDone"
         />
+        {{ helper.completedTaskIds }}
+        {{ task.id }}
     </div>
 </template>
 <script setup lang="ts">

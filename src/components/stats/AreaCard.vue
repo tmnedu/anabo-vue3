@@ -11,7 +11,7 @@
         </div>
         <div style="padding: 12px">
             <AreaHelper
-                :key="month"
+                :key="`${helper.id}-${month}`"
                 :admin-view="adminView"
                 :month="month"
                 v-for="helper in areaHelpers"

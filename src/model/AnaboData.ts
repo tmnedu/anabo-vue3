@@ -1,26 +1,29 @@
 export default class AnaboData {
     areas: Area[] = [];
-    curator: Staff[] = [];
+    curators: Staff[] = [];
     helpers: Helper[] = [];
     tasks: Task[] = [];
 }
-export class Entity {
-    id: string = "";
+export interface Entity {
+    id: number;
 }
-export class Area extends Entity {
-    name: string = "";
-    color: string = "";
+export class Area implements Entity {
+    id: number = 0;
+    name: string | null = "";
+    color: string | null = "";
 }
 
-export class Staff extends Entity {
-    fio: string = "";
-    areaId: string = "";
+export class Task implements Entity {
+    id: number = 0;
+    month: string | undefined = "2023-01";
+    title: string | null = "";
+}
+export class Staff implements Entity {
+    id: number = 0;
+    fio: string | null = "";
+    areaId: number | null = null;
 }
 export class Helper extends Staff {
-    completedTaskIds: string[] = [];
-    schoolName: string = "";
-}
-export class Task extends Entity {
-    month: string = "2023-01";
-    title: string = "";
+    completedTaskIds: number[] | null = [];
+    schoolName: string | null = "";
 }
