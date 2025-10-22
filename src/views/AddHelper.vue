@@ -64,7 +64,7 @@ function refreshState() {
     makeNewHelper();
 }
 async function save() {
-    if (helper.areaId && helper.fio && helper.schoolName) {
+    if (Number.isFinite(helper.areaId) && helper.fio && helper.schoolName) {
         console.log("saving");
         state.value = "saving";
         await store.saveNewHelper(helper);
@@ -72,3 +72,4 @@ async function save() {
     } else console.log("not saving");
 }
 </script>
+
